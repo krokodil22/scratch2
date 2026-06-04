@@ -180,6 +180,9 @@ class CostumeTab extends React.Component {
         this.handleNewCostume(vmCostume, true /* fromCostumeLibrary */);
     }
     handleSurpriseBackdrop () {
+        if (!backdropLibraryContent.length) {
+            return;
+        }
         const item = backdropLibraryContent[Math.floor(Math.random() * backdropLibraryContent.length)];
         const vmCostume = {
             name: item.name,

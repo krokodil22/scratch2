@@ -17,7 +17,6 @@ import RecordModal from './record-modal.jsx';
 import SoundEditor from './sound-editor.jsx';
 import SoundLibrary from './sound-library.jsx';
 
-import soundLibraryContent from '../lib/libraries/sounds.json';
 import {handleFileUpload, soundUpload} from '../lib/file-uploader.js';
 import errorBoundaryHOC from '../lib/error-boundary-hoc.jsx';
 import DragConstants from '../lib/drag-constants';
@@ -111,17 +110,7 @@ class SoundTab extends React.Component {
     }
 
     handleSurpriseSound () {
-        const soundItem = soundLibraryContent[Math.floor(Math.random() * soundLibraryContent.length)];
-        const vmSound = {
-            format: soundItem.dataFormat,
-            md5: soundItem.md5ext,
-            rate: soundItem.rate,
-            sampleCount: soundItem.sampleCount,
-            name: soundItem.name
-        };
-        this.props.vm.addSound(vmSound).then(() => {
-            this.handleNewSound();
-        });
+        return null;
     }
 
     handleFileUploadClick () {
