@@ -91,6 +91,17 @@ class LibraryItem extends React.PureComponent {
         const nextIconIndex = (this.state.iconIndex + 1) % this.props.icons.length;
         this.setState({iconIndex: nextIconIndex});
     }
+    getIconURL (iconMd5) {
+        const localSpritePrefix = 'local-sprites/';
+        const localBackdropPrefix = 'local-backs/';
+        if (iconMd5.startsWith(localSpritePrefix)) {
+            return `static/sprites/${iconMd5.substring(localSpritePrefix.length)}`;
+        }
+        if (iconMd5.startsWith(localBackdropPrefix)) {
+            return `static/backs/${iconMd5.substring(localBackdropPrefix.length)}`;
+        }
+        return `https://cdn.assets.scratch.mit.edu/internalapi/asset/${iconMd5}/get/`;
+    }
     curIconMd5 () {
         const iconMd5Prop = this.props.iconMd5;
         if (this.props.icons &&
@@ -106,7 +117,7 @@ class LibraryItem extends React.PureComponent {
     render () {
         const iconMd5 = this.curIconMd5();
         const iconURL = iconMd5 ?
-            `https://cdn.assets.scratch.mit.edu/internalapi/asset/${iconMd5}/get/` :
+            this.getIconURL(iconMd5) :
             this.props.iconRawURL;
         return (
             <LibraryItemComponent

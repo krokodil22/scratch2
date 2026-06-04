@@ -13,6 +13,10 @@ class Storage extends ScratchStorage {
     }
     addOfficialScratchWebStores () {
         this.addWebStore(
+            [this.AssetType.ImageVector, this.AssetType.ImageBitmap],
+            this.getLocalAssetGetConfig.bind(this)
+        );
+        this.addWebStore(
             [this.AssetType.Project],
             this.getProjectGetConfig.bind(this),
             this.getProjectCreateConfig.bind(this),
@@ -57,6 +61,20 @@ class Storage extends ScratchStorage {
     }
     setAssetHost (assetHost) {
         this.assetHost = assetHost;
+    }
+    getLocalAssetGetConfig (asset) {
+        const localSpritePrefix = 'local-sprites/';
+        const localBackdropPrefix = 'local-backs/';
+        if (typeof asset.assetId !== 'string') {
+            return false;
+        }
+        if (asset.assetId.startsWith(localSpritePrefix)) {
+            return `static/sprites/${asset.assetId.substring(localSpritePrefix.length)}.${asset.dataFormat}`;
+        }
+        if (asset.assetId.startsWith(localBackdropPrefix)) {
+            return `static/backs/${asset.assetId.substring(localBackdropPrefix.length)}.${asset.dataFormat}`;
+        }
+        return false;
     }
     getAssetGetConfig (asset) {
         return `${this.assetHost}/internalapi/asset/${asset.assetId}.${asset.dataFormat}/get/`;
